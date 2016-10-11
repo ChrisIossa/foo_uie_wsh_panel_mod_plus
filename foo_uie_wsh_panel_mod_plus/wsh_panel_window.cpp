@@ -99,11 +99,6 @@ bool wsh_panel_window::script_load()
     }
     else
     {
-		if (ScriptInfo().feature_mask & t_script_info::kFeatureLayedWindow)
-		{
-			SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-		}
-
         if (ScriptInfo().feature_mask & t_script_info::kFeatureDragDrop)
         {
             // Ole Drag and Drop support
@@ -116,7 +111,8 @@ bool wsh_panel_window::script_load()
         SendMessage(m_hwnd, UWM_SIZE, 0, 0);
 
         // Show init message
-        console::formatter() << WSPM_NAME " (" 
+        console::formatter() << load_lang(IDS_WSHM_NAME, lang_msg) 
+			<< " (" 
             << ScriptInfo().build_info_string()
             << "): "
 			<< load_lang(IDS_SCRIPT_INIT_TIME, lang_msg)
@@ -624,6 +620,10 @@ LRESULT wsh_panel_window::on_message(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 	case CALLBACK_UWM_ON_PROCESS_LOCATIONS_DONE:
 		on_process_locations_done(wp);
 		return 0;
+
+	case CALLBACK_UWM_HTTPEX_RUNASYNC_STATUS:
+		on_http_ex_run_status(wp);
+		return 0;
     }
 
     return uDefWindowProc(hwnd, msg, wp, lp);
@@ -680,20 +680,7 @@ void wsh_panel_window::on_paint(HDC dc, LPRECT lpUpdateRect)
         on_paint_user(memdc, lpUpdateRect);
     }
 
-	if (ScriptInfo().feature_mask & t_script_info::kFeatureLayedWindow)
-	{
-		BLENDFUNCTION blend = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-		RECT rect;
-		GetWindowRect(m_hwnd, &rect);
-		POINT dest = { rect.left, rect.top };
-		POINT src = { 0 };
-		SIZE bitmap_size = { m_width, m_height };
-		UpdateLayeredWindow(m_hwnd, dc, &dest, &bitmap_size, memdc, &src, 0, &blend, ULW_ALPHA);
-	}
-	else
-	{
-		BitBlt(dc, 0, 0, m_width, m_height, memdc, 0, 0, SRCCOPY);
-	}
+	BitBlt(dc, 0, 0, m_width, m_height, memdc, 0, 0, SRCCOPY);
     
     SelectBitmap(memdc, oldbmp);
     DeleteDC(memdc);
@@ -1536,4 +1523,21 @@ void wsh_panel_window::on_process_locations_done( WPARAM wp )
 
 	if (handles)
 		handles->Release();
+}
+
+void wsh_panel_window::on_http_ex_run_status(WPARAM wp)
+{
+	TRACK_FUNCTION();
+
+	t_http_callback_info_ptr param = (t_http_callback_info_ptr)wp;
+	VARIANTARG args[1];
+
+	args[0].vt = VT_DISPATCH;
+	args[0].pdispVal = param;
+	script_invoke_v(CallbackIds::on_http_ex_run_status, args, _countof(args));
+
+	if (param)
+	{
+		param->Release();
+	}
 }
