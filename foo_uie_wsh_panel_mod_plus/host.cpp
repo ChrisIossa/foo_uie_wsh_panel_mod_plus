@@ -1185,6 +1185,7 @@ void ScriptHost::ReportError(IActiveScriptError* err)
     if (excep.bstrHelpFile)    SysFreeString(excep.bstrHelpFile);
 
     console::error(formatter);
+	popup_msg::g_show(formatter, WSPM_NAME, popup_message::icon_error);
     MessageBeep(MB_ICONASTERISK);
     SendMessage(m_host->GetHWND(), UWM_SCRIPT_ERROR, 0, 0);
 }

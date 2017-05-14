@@ -123,6 +123,7 @@
 #define IDS_BROWSE_TITLE                10072
 #define IDS_BROWSE_FILETYPE             10073
 #define IDS_NEW_PLAYLIST_NAME           10074
+#define IDS_ONTOP       			    10075
 
 // Next default values for new objects
 // 

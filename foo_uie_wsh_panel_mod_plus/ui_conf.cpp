@@ -354,7 +354,7 @@ void CDialogConf::OnInitMenuPopup(CMenuHandle menuPopup, UINT nIndex, BOOL bSysM
 		if (!IsMenuItemExist(menuPopup, IDM_ALWAYS_ON_TOP))
 		{
 			//menuPopup.InsertMenu(SC_MINIMIZE, MF_BYCOMMAND);
-			menuPopup.InsertMenu(SC_MINIMIZE, MF_BYCOMMAND, IDM_ALWAYS_ON_TOP, L"Always on top");
+			menuPopup.InsertMenu(SC_MINIMIZE, MF_BYCOMMAND, IDM_ALWAYS_ON_TOP, L"总在最上面");
 			//menuPopup.InsertMenu(SC_MINIMIZE, MF_BYCOMMAND);
 		}
 		

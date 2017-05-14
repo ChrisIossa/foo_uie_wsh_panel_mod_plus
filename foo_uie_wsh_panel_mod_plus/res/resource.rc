@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -304,6 +304,7 @@ BEGIN
     IDS_MENU_CONF           "配置(&C)..."
     IDS_MENU_RELOAD         "重载脚本(&S)"
     IDS_PANELS              "面板"
+    IDS_ONTOP				"总在最上面"
     IDS_CUI_WARNING         "警告: 至少一个 %s 实例运行于类CUI的容器 (浮动面板，FUI，等等) 但却无法使用分栏用户界面提供的一些基本服务 (没有或者使用很旧的分栏用户界面版本?)。\n请下载并安装最新版本的分栏用户界面:\nhttp://yuo.be/columns.php\n\n[这个提示信息仅弹出显示一次]"
     IDS_DUI_DECRIPTION      "自定义的面板支持使用VBScript和JScript脚本."
     IDS_WSHM_DOCS           "WSHM 帮助文档"
@@ -610,6 +611,7 @@ BEGIN
     IDS_MENU_CONF           "&Configure..."
     IDS_MENU_RELOAD         "Reload &Script"
     IDS_PANELS              "Panels"
+    IDS_ONTOP				"Always on top"
     IDS_CUI_WARNING         "Warning: At least one %s instance is running in CUI containers (dockable panels, Func UI, etc) without some services provided by the Columns UI component (have not been installed or have a very old version installed?).\nPlease download and install the latest version of Columns UI:\nhttp://yuo.be/columns.php\n\n[This popup message will be shown only once]"
     IDS_DUI_DECRIPTION      "Customizable panel with VBScript and JScript scripting support."
     IDS_WSHM_DOCS           "WSHM Help Docs"
@@ -662,7 +664,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

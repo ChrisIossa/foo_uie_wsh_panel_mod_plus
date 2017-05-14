@@ -117,9 +117,6 @@
     <ClCompile Include="script_interface_dragsource_impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IDataObjectImpl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="wsh_panel_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -291,9 +288,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="obsolete.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IDataObjectImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="wsh_panel_window_dui.h">
