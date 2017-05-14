@@ -52,6 +52,11 @@ LRESULT wsh_panel_window_cui::on_message(HWND hwnd, UINT msg, WPARAM wp, LPARAM 
 {
     switch (msg)
     {
+	case WM_SYSKEYDOWN:
+	case WM_KEYDOWN:
+		if (uie::window::g_process_keydown_keyboard_shortcuts(wp))
+			return 0;
+		break;
     case WM_CREATE:
         try
         {

@@ -367,37 +367,17 @@ LRESULT wsh_panel_window::on_message(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
     case WM_KEYDOWN:
         {
             VARIANTARG args[1];
-            _variant_t result;
-
             args[0].vt = VT_UI4;
             args[0].ulVal = (ULONG)wp;
-
-            if (SUCCEEDED(script_invoke_v(CallbackIds::on_key_down, args, _countof(args), &result)))
-            {
-                result.ChangeType(VT_BOOL);
-                if (result.boolVal != VARIANT_FALSE) 
-                {
-                    // If user return true in the callback, bypass keyboard shortcut processing.
-                    return 0;
-                }
-            }
-
-            static_api_ptr_t<keyboard_shortcut_manager_v2> ksm;
-
-            if (ksm->process_keydown_simple(wp)) 
-            {
-                return 0;
-            }
+            script_invoke_v(CallbackIds::on_key_down, args, _countof(args));
         }
         return 0;
 
     case WM_KEYUP:
         {
             VARIANTARG args[1];
-
             args[0].vt = VT_UI4;
             args[0].ulVal = (ULONG)wp;
-
             script_invoke_v(CallbackIds::on_key_up, args, _countof(args));
         }
         return 0;
@@ -405,7 +385,6 @@ LRESULT wsh_panel_window::on_message(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
     case WM_CHAR:
         {
             VARIANTARG args[1];
-
             args[0].vt = VT_UI4;
             args[0].ulVal = (ULONG)wp;
             script_invoke_v(CallbackIds::on_char, args, _countof(args));
@@ -444,9 +423,15 @@ LRESULT wsh_panel_window::on_message(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         break;
 
     case UWM_SCRIPT_ERROR:
-        Repaint();
-        m_script_host->Stop();
-        script_unload();
+		{
+			const auto& tooltip_param = PanelTooltipParam();
+			if (tooltip_param && tooltip_param->tooltip_hwnd)
+				SendMessage(tooltip_param->tooltip_hwnd, TTM_ACTIVATE, FALSE, 0);
+
+			Repaint();
+			m_script_host->Stop();
+			script_unload();
+		}
         return 0;
 
     case UWM_SCRIPT_DISABLED_BEFORE:
@@ -770,10 +755,14 @@ void wsh_panel_window::on_mouse_wheel(WPARAM wp)
 {
     TRACK_FUNCTION();
 
-    VARIANTARG args[1];
+	VARIANTARG args[3];
 
-    args[0].vt = VT_I4;
-    args[0].lVal = GET_WHEEL_DELTA_WPARAM(wp) / WHEEL_DELTA;
+	args[2].vt = VT_I4;
+	args[2].lVal = GET_WHEEL_DELTA_WPARAM(wp) / WHEEL_DELTA;
+	args[1].vt = VT_I4;
+	args[1].lVal = GET_WHEEL_DELTA_WPARAM(wp);
+	args[0].vt = VT_I4;
+	args[0].lVal = WHEEL_DELTA;
     script_invoke_v(CallbackIds::on_mouse_wheel, args, _countof(args));
 }
 

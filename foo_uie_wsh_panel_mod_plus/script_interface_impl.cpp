@@ -2319,7 +2319,10 @@ STDMETHODIMP FbUtils::trace(SAFEARRAY * p)
             continue;
 
         str.add_string(pfc::stringcvt::string_utf8_from_wide(var.bstrVal));
-        str.add_byte(' ');
+		if (i < nUBound)
+		{
+			str.add_byte(' ');
+		}
     }
 
     console::info(str);
@@ -3382,7 +3385,7 @@ STDMETHODIMP ContextMenuManager::InitContext(VARIANT handle)
     }
 
     contextmenu_manager::g_create(m_cm);
-    m_cm->init_context(handle_list, 0);
+    m_cm->init_context(handle_list, contextmenu_manager::flag_show_shortcuts);
     return S_OK;
 }
 
@@ -3391,7 +3394,7 @@ STDMETHODIMP ContextMenuManager::InitNowPlaying()
     TRACK_FUNCTION();
 
     contextmenu_manager::g_create(m_cm);
-    m_cm->init_context_now_playing(0);
+    m_cm->init_context_now_playing(contextmenu_manager::flag_show_shortcuts);
     return S_OK;
 }
 
@@ -3474,7 +3477,7 @@ STDMETHODIMP MainMenuManager::BuildMenu(IMenuObj * p, int base_id, int count)
     // HACK: workaround for foo_menu_addons
     try
     {
-        m_mm->generate_menu_win32((HMENU)menuid, base_id, count, 0);
+        m_mm->generate_menu_win32((HMENU)menuid, base_id, count, mainmenu_manager::flag_show_shortcuts);
     }
     catch (...) {}
 

@@ -1,0 +1,9 @@
+* text eol=crlf
+*.cpp eol=lf
+*.h eol=lf
+*.cxx eol=lf
+*.rc eol=lf
+
+*.png binary
+*.jpg binary
+
